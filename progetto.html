@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Il Progetto — AIROP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-hero { padding: 100px 80px 80px; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+    .page-hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; letter-spacing: -2.5px; line-height: 1.02; margin-bottom: 24px; }
+    .page-hero h1 span { color: var(--accent); }
+    .page-hero p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.85; max-width: 640px; }
+    .component-section { border-bottom: 1px solid var(--border); }
+    .component-inner { max-width: 1280px; margin: 0 auto; padding: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .component-inner.reverse { direction: rtl; }
+    .component-inner.reverse > * { direction: ltr; }
+    .comp-num { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+    .comp-tag { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+    .comp-title { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 20px; }
+    .comp-desc { color: var(--text-muted); line-height: 1.9; font-size: 0.97rem; margin-bottom: 24px; }
+    .comp-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .comp-list li { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); padding-left: 16px; position: relative; }
+    .comp-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+    .objectives { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .obj-card { background: var(--surface2); border: 1px solid var(--border); padding: 40px; }
+    .obj-num { font-family: var(--font-mono); font-size: 2.5rem; font-weight: 700; color: var(--text-dim); margin-bottom: 16px; line-height: 1; }
+    .obj-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+    .obj-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.8; }
+    .roadmap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .rm-card { background: var(--surface); border: 1px solid var(--border); padding: 36px; }
+    .rm-ver { font-family: var(--font-mono); font-size: 1rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+    .badge { font-family: var(--font-mono); font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; }
+    .badge.current { color: var(--accent-green); border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.06); }
+    .badge.planned  { color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); background: rgba(251,191,36,0.06); }
+    .badge.future   { color: var(--text-muted); border: 1px solid var(--border); }
+    .rm-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .rm-list li { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); padding-left: 18px; position: relative; }
+    .rm-list li.done { color: var(--text); }
+    .rm-list li::before { content: '—'; position: absolute; left: 0; color: var(--text-dim); }
+    .rm-list li.done::before { content: '✓'; color: var(--accent-green); }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="page-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">CODE<span>CRAFT</span></a>
+      <div class="header-badge">AIROP v1.0</div>
+    </div>
+  </header>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="progetto.html" class="active">Il Progetto</a></li>
+      <li><a href="architettura.html">Architettura</a></li>
+      <li><a href="api.html">API & Docs</a></li>
+      <li><a href="contatti.html">Contatti</a></li>
+    </ul>
+  </nav>
+  <main class="page-body">
+
+    <div class="page-hero">
+      <span class="section-label">// Il nostro lavoro</span>
+      <h1>AIROP —<br>il <span>futuro</span><br>dell'IT aziendale.</h1>
+      <p>Una piattaforma software innovativa che trasforma l'infrastruttura IT da reattiva a predittiva: capace di rilevare problemi prima che accadano, intervenire autonomamente e ottimizzare i consumi energetici in tempo reale.</p>
+    </div>
+
+    <!-- OBIETTIVI -->
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-label">// Perché esiste</span>
+        <h2>Gli Obiettivi</h2>
+        <p>AIROP nasce per rispondere a una domanda concreta: come rendere un'infrastruttura IT veramente autonoma?</p>
+      </div>
+      <div class="objectives">
+        <div class="obj-card">
+          <div class="obj-num">01</div>
+          <h4>Prevenire i Problemi</h4>
+          <p>Rilevare anomalie e trend negativi prima che impattino la produzione, usando Machine Learning su dati reali raccolti ogni 5 secondi.</p>
+        </div>
+        <div class="obj-card">
+          <div class="obj-num">02</div>
+          <h4>Intervenire Autonomamente</h4>
+          <p>Applicare azioni di remediation automatiche — kill process, restart service, scale — senza attendere intervento umano, riducendo i tempi di downtime.</p>
+        </div>
+        <div class="obj-card">
+          <div class="obj-num">03</div>
+          <h4>Green IT</h4>
+          <p>Monitorare e ottimizzare i consumi energetici dell'infrastruttura, contribuendo alla sostenibilità ambientale e alla riduzione dei costi operativi.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENT -->
+    <div class="component-section alt-bg">
+      <div class="component-inner">
+        <div>
+          <p class="comp-num">Componente 01</p>
+          <span class="comp-tag" style="color:var(--accent)">// Agent Data Collection</span>
+          <h3 class="comp-title">Agent v2</h3>
+          <p class="comp-desc">Il cuore della raccolta dati. Agent Python headless configurabile via file YAML, progettato per girare su qualsiasi server Linux senza interfaccia grafica. Ogni agent monitora il proprio host e invia i dati al backend centrale ogni 5 secondi, insieme a un heartbeat periodico.</p>
+          <ul class="comp-list">
+            <li>Raccolta CPU, RAM, disco, rete, processi con <code>psutil</code></li>
+            <li>Configurazione tramite <code>config.yaml</code> (URL, intervallo, metriche)</li>
+            <li>Heartbeat periodico per segnalare stato Online/Offline</li>
+            <li>Retry automatico su errori di connessione (3 tentativi)</li>
+            <li>Logging strutturato su file <code>airop_agent.log</code></li>
+            <li>Supporto distribuzione multi-host</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Python 3.11+</span>
+            <span class="chip">psutil</span>
+            <span class="chip">PyYAML</span>
+            <span class="chip">requests</span>
+          </div>
+        </div>
+        <div>
+          <div class="code-block">
+            <div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">config.yaml</span></div>
+            <pre>agent:
+  poll_interval: <span class="val">5</span>
+  enabled_metrics:
+    - <span class="str">cpu</span>
+    - <span class="str">memory</span>
+    - <span class="str">disk</span>
+    - <span class="str">network</span>
+    - <span class="str">processes</span>
+
+backend:
+  url: <span class="str">http://localhost:5000</span>
+  timeout: <span class="val">10</span>
+  retry_attempts: <span class="val">3</span>
+
+metrics:
+  cpu:
+    collect_loadavg: <span class="kw">true</span>
+  memory:
+    collect_swap: <span class="kw">true</span>
+  processes:
+    threshold_cpu_percent: <span class="val">5</span>
+    top_count: <span class="val">10</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACKEND -->
+    <div class="component-section">
+      <div class="component-inner reverse">
+        <div>
+          <p class="comp-num">Componente 02</p>
+          <span class="comp-tag" style="color:var(--accent-purple)">// Backend Central</span>
+          <h3 class="comp-title">REST API C# .NET 8</h3>
+          <p class="comp-desc">Il backend è il punto centrale di tutta la piattaforma: riceve metriche dagli agent, le persiste su MSSQL e le espone a dashboard, AI engine e automation engine tramite API REST. Costruito con ASP.NET Core e Entity Framework Core per performance e affidabilità enterprise.</p>
+          <ul class="comp-list">
+            <li>20+ endpoint REST divisi in 4 controller (System, Agent, Alert, Automation)</li>
+            <li>Entity Framework Core con MSSQL Server 2022</li>
+            <li>AutoMapper per la mappatura DTO ↔ Model</li>
+            <li>CORS configurato per permettere accesso dalla dashboard</li>
+            <li>Logging strutturato con Serilog (console + file rolling giornaliero)</li>
+            <li>Swagger UI in ambiente Development</li>
+            <li>Agent offline detection: heartbeat mancante &gt; 5 minuti → status Offline</li>
+          </ul>
+          <div class="chips">
+            <span class="chip chip--purple">C# .NET 8</span>
+            <span class="chip chip--purple">ASP.NET Core</span>
+            <span class="chip chip--purple">Entity Framework</span>
+            <span class="chip chip--purple">MSSQL</span>
+            <span class="chip chip--purple">Serilog</span>
+          </div>
+        </div>
+        <div>
+          <div class="code-block">
+            <div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">Program.cs</span></div>
+            <pre><span class="cmt">// Serilog: console + file rolling</span>
+Log.Logger = <span class="kw">new</span> <span class="fn">LoggerConfiguration</span>()
+  .<span class="fn">WriteTo</span>.<span class="fn">Console</span>()
+  .<span class="fn">WriteTo</span>.<span class="fn">File</span>(<span class="str">"logs/airop-.log"</span>,
+    rollingInterval: <span class="val">RollingInterval.Day</span>)
+  .<span class="fn">CreateLogger</span>();
+
+<span class="cmt">// Entity Framework + MSSQL</span>
+builder.Services.<span class="fn">AddDbContext</span>&lt;AiropDbContext&gt;(
+  opts => opts.<span class="fn">UseSqlServer</span>(connectionString));
+
+<span class="cmt">// CORS: accesso da qualsiasi origine</span>
+builder.Services.<span class="fn">AddCors</span>(opts => opts
+  .<span class="fn">AddPolicy</span>(<span class="str">"AllowAll"</span>, b => b
+    .<span class="fn">AllowAnyOrigin</span>()
+    .<span class="fn">AllowAnyMethod</span>()
+    .<span class="fn">AllowAnyHeader</span>()));</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI ENGINE -->
+    <div class="component-section alt-bg">
+      <div class="component-inner">
+        <div>
+          <p class="comp-num">Componente 03</p>
+          <span class="comp-tag" style="color:var(--accent-green)">// AI Engine</span>
+          <h3 class="comp-title">Anomaly Detection &amp; Prediction</h3>
+          <p class="comp-desc">Il modulo di Machine Learning analizza le metriche storiche per rilevare anomalie e prevedere trend. Usa Isolation Forest per identificare valori anomali nelle distribuzioni di CPU e RAM, e Linear Regression per stimare quando una risorsa raggiungerà soglie critiche.</p>
+          <ul class="comp-list">
+            <li>Isolation Forest con contamination=0.1 (sklearn)</li>
+            <li>StandardScaler per normalizzazione feature</li>
+            <li>Linear Regression per previsione trend su 24h</li>
+            <li>Generazione automatica di alert CRITICAL/WARNING/INFO</li>
+            <li>Analisi eseguita ogni 5 minuti su tutte le metriche storiche</li>
+            <li>Logging dettagliato in <code>ai_analysis.log</code></li>
+          </ul>
+          <div class="chips">
+            <span class="chip chip--green">scikit-learn</span>
+            <span class="chip chip--green">pandas</span>
+            <span class="chip chip--green">numpy</span>
+            <span class="chip chip--green">Isolation Forest</span>
+          </div>
+        </div>
+        <div>
+          <div class="code-block">
+            <div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">anomaly_detector.py</span></div>
+            <pre><span class="kw">class</span> <span class="fn">AIROPAIEngine</span>:
+  <span class="kw">def</span> <span class="fn">__init__</span>(self, backend_url):
+    self.scaler = <span class="fn">StandardScaler</span>()
+    self.anomaly_detector = <span class="fn">IsolationForest</span>(
+      contamination=<span class="val">0.1</span>,
+      random_state=<span class="val">42</span>
+    )
+    self.metrics_history = {}
+
+  <span class="kw">def</span> <span class="fn">detect_anomalies</span>(self, metrics):
+    X = self.scaler.<span class="fn">fit_transform</span>(metrics)
+    predictions = self.anomaly_detector.<span class="fn">fit_predict</span>(X)
+    <span class="cmt"># -1 = anomalia, 1 = normale</span>
+    <span class="kw">return</span> predictions == <span class="val">-1</span>
+
+  <span class="kw">def</span> <span class="fn">predict_trend</span>(self, values):
+    model = <span class="fn">LinearRegression</span>()
+    X = np.<span class="fn">arange</span>(<span class="fn">len</span>(values)).<span class="fn">reshape</span>(-<span class="val">1</span>,<span class="val">1</span>)
+    model.<span class="fn">fit</span>(X, values)
+    <span class="kw">return</span> model.coef_[<span class="val">0</span>]  <span class="cmt"># slope</span></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTOMATION -->
+    <div class="component-section">
+      <div class="component-inner reverse">
+        <div>
+          <p class="comp-num">Componente 04</p>
+          <span class="comp-tag" style="color:var(--accent-warm)">// Automation Engine</span>
+          <h3 class="comp-title">Self-Healing</h3>
+          <p class="comp-desc">Il motore di automazione valuta regole configurabili sulle metriche in arrivo e applica azioni correttive automaticamente. Ogni azione è registrata nel database per audit completo. In caso di anomalia non gestibile localmente, viene eseguita l'escalation verso l'amministratore.</p>
+          <ul class="comp-list">
+            <li>Tipi azione: KILL_PROCESS, RESTART_SERVICE, SCALE_UP, SCALE_DOWN, CLEAR_CACHE, ESCALATE</li>
+            <li>Regole definite come trigger: metrica + operatore + soglia</li>
+            <li>Esempio: cpu_percent &gt; 80 → kill process più pesante</li>
+            <li>Tracking completo con status: PENDING → EXECUTING → DONE/FAILED</li>
+            <li>Escalation automatica quando nessuna regola risolve il problema</li>
+            <li>Logging su <code>automation.log</code></li>
+          </ul>
+          <div class="chips">
+            <span class="chip chip--orange">Python</span>
+            <span class="chip chip--orange">subprocess</span>
+            <span class="chip chip--orange">Enum</span>
+            <span class="chip chip--orange">REST API</span>
+          </div>
+        </div>
+        <div>
+          <div class="code-block">
+            <div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">self_healing.py</span></div>
+            <pre><span class="kw">class</span> <span class="fn">ActionType</span>(Enum):
+  KILL_PROCESS     = <span class="str">"KILL_PROCESS"</span>
+  RESTART_SERVICE  = <span class="str">"RESTART_SERVICE"</span>
+  SCALE_UP         = <span class="str">"SCALE_UP"</span>
+  SCALE_DOWN       = <span class="str">"SCALE_DOWN"</span>
+  CLEAR_CACHE      = <span class="str">"CLEAR_CACHE"</span>
+  ESCALATE         = <span class="str">"ESCALATE"</span>
+
+<span class="kw">class</span> <span class="fn">AutomationRule</span>:
+  <span class="kw">def</span> <span class="fn">check_trigger</span>(self, metrics):
+    metric = self.trigger[<span class="str">'metric'</span>]
+    op     = self.trigger[<span class="str">'operator'</span>]
+    thresh = self.trigger[<span class="str">'threshold'</span>]
+    value  = metrics.<span class="fn">get</span>(metric, <span class="val">0</span>)
+
+    <span class="cmt"># Valuta: cpu_percent > 80</span>
+    <span class="kw">if</span> op == <span class="str">'>'</span>: <span class="kw">return</span> value > thresh</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="component-section alt-bg">
+      <div class="component-inner">
+        <div>
+          <p class="comp-num">Componente 05</p>
+          <span class="comp-tag" style="color:var(--accent)">// Dashboard</span>
+          <h3 class="comp-title">Monitoring React</h3>
+          <p class="comp-desc">L'interfaccia di monitoraggio costruita con React 18 e Material-UI. Aggiornaautomaticamente ogni 10 secondi, mostrando metriche in tempo reale, alert attivi, stato degli agent e storico delle azioni di automazione. Tutto con grafici interattivi e navigazione tra sezioni.</p>
+          <ul class="comp-list">
+            <li>Dashboard principale: LineChart CPU e RAM sugli ultimi 20 campioni</li>
+            <li>PieChart distribuzione alert per severità (CRITICAL/WARNING/INFO)</li>
+            <li>Pagina Agents: lista con status Online/Offline e ultimo heartbeat</li>
+            <li>Pagina Alerts: filtro per severità e risoluzione diretta</li>
+            <li>Pagina Anomaly Detection: risultati AI Engine in tempo reale</li>
+            <li>Aggiornamento automatico ogni 10 secondi con <code>setInterval</code></li>
+          </ul>
+          <div class="chips">
+            <span class="chip">React 18</span>
+            <span class="chip">Material-UI</span>
+            <span class="chip">Recharts</span>
+            <span class="chip">Axios</span>
+          </div>
+        </div>
+        <div>
+          <div class="code-block">
+            <div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">Dashboard.jsx</span></div>
+            <pre><span class="kw">const</span> <span class="fn">Dashboard</span> = () => {
+  <span class="kw">const</span> [metrics, setMetrics] = <span class="fn">useState</span>([]);
+  <span class="kw">const</span> [alerts,  setAlerts]  = <span class="fn">useState</span>([]);
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">fetchData</span>();
+    <span class="cmt">// Aggiorna ogni 10 secondi</span>
+    <span class="kw">const</span> iv = <span class="fn">setInterval</span>(<span class="fn">fetchData</span>, <span class="val">10000</span>);
+    <span class="kw">return</span> () => <span class="fn">clearInterval</span>(iv);
+  }, []);
+
+  <span class="cmt">// LineChart CPU ultimi 20 campioni</span>
+  <span class="kw">const</span> cpuData = metrics
+    .<span class="fn">slice</span>(-<span class="val">20</span>)
+    .<span class="fn">map</span>(m => ({
+      time: <span class="fn">formatTime</span>(m.timestamp),
+      cpu: <span class="fn">parseFloat</span>(m.cpuPercent)
+    })).<span class="fn">reverse</span>();
+};</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-label">// Evoluzione</span>
+        <h2>Roadmap</h2>
+      </div>
+      <div class="roadmap-grid">
+        <div class="rm-card">
+          <div class="rm-ver">v1.0 <span class="badge current">Current</span></div>
+          <ul class="rm-list">
+            <li class="done">Agent data collection</li>
+            <li class="done">Backend REST API (.NET 8)</li>
+            <li class="done">AI anomaly detection</li>
+            <li class="done">Self-healing automation</li>
+            <li class="done">Dashboard React monitoring</li>
+          </ul>
+        </div>
+        <div class="rm-card">
+          <div class="rm-ver">v1.1 <span class="badge planned">Planned</span></div>
+          <ul class="rm-list">
+            <li>Multi-cloud (AWS, Azure, GCP)</li>
+            <li>Advanced predictive analytics</li>
+            <li>Custom rule engine UI</li>
+            <li>Mobile app (React Native)</li>
+          </ul>
+        </div>
+        <div class="rm-card">
+          <div class="rm-ver">v2.0 <span class="badge future">Future</span></div>
+          <ul class="rm-list">
+            <li>ML-based cost optimization</li>
+            <li>Blockchain audit trail</li>
+            <li>Enterprise (SAML, Active Directory)</li>
+            <li>Kubernetes HPA nativo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="page-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">CODE<span>CRAFT</span></span>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="architettura.html">Architettura</a>
+        <a href="api.html">API</a>
+        <a href="contatti.html">Contatti</a>
+      </nav>
+      <span class="footer-copy">2025 — AIROP by CodeCraft</span>
+    </div>
+  </footer>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

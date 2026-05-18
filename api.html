@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>API & Docs — AIROP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-hero { padding: 100px 80px 64px; max-width: 1280px; margin: 0 auto; }
+    .page-hero h1 { font-size: clamp(2.5rem, 4.5vw, 4rem); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 20px; }
+    .page-hero p { color: var(--text-muted); font-size: 1rem; line-height: 1.85; max-width: 600px; }
+    .api-layout { display: grid; grid-template-columns: 220px 1fr; gap: 0; max-width: 1280px; margin: 0 auto; border-top: 1px solid var(--border); }
+    .api-sidebar { border-right: 1px solid var(--border); padding: 48px 32px; position: sticky; top: 144px; align-self: start; }
+    .api-sidebar h4 { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 16px; }
+    .api-sidebar a { display: block; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-decoration: none; padding: 8px 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .api-sidebar a:hover { color: var(--accent); }
+    .api-sidebar a:last-child { border-bottom: none; }
+    .api-content { padding: 48px 64px 80px; }
+    .api-group { margin-bottom: 72px; }
+    .api-group-title { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; padding-bottom: 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 16px; }
+    .api-group-base { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); background: rgba(14,165,233,0.08); padding: 4px 10px; font-weight: 400; }
+    .api-group-desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.75; margin-bottom: 24px; }
+    .endpoint { background: var(--surface2); border: 1px solid var(--border); margin-bottom: 2px; overflow: hidden; }
+    .ep-header { display: flex; align-items: center; gap: 16px; padding: 16px 24px; cursor: pointer; transition: background 0.15s; user-select: none; }
+    .ep-header:hover { background: rgba(255,255,255,0.02); }
+    .ep-path { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); flex: 1; }
+    .ep-summary { font-size: 0.82rem; color: var(--text-muted); }
+    .ep-body { border-top: 1px solid var(--border); padding: 24px; display: none; }
+    .ep-body.open { display: block; }
+    .ep-desc { color: var(--text-muted); font-size: 0.88rem; line-height: 1.8; margin-bottom: 16px; }
+    .ep-section { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; margin-top: 16px; }
+    /* quick start */
+    .qs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .qs-card { background: var(--surface2); border: 1px solid var(--border); padding: 32px; }
+    .qs-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .qs-card p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.75; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="page-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">CODE<span>CRAFT</span></a>
+      <div class="header-badge">AIROP v1.0</div>
+    </div>
+  </header>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="progetto.html">Il Progetto</a></li>
+      <li><a href="architettura.html">Architettura</a></li>
+      <li><a href="api.html" class="active">API & Docs</a></li>
+      <li><a href="contatti.html">Contatti</a></li>
+    </ul>
+  </nav>
+  <main class="page-body">
+
+    <div class="page-hero">
+      <span class="section-label">// Documentazione API</span>
+      <h1>API Reference</h1>
+      <p>Tutti gli endpoint del backend AIROP. Base URL: <code style="font-family:var(--font-mono);color:var(--accent);font-size:0.9em">http://localhost:5000</code></p>
+    </div>
+
+    <div class="api-layout">
+      <aside class="api-sidebar">
+        <h4>Risorse</h4>
+        <a href="#system">System Metrics</a>
+        <a href="#agent">Agents</a>
+        <a href="#alert">Alerts</a>
+        <a href="#automation">Automation</a>
+        <a href="#process">Process</a>
+        <h4 style="margin-top:24px">Quick Start</h4>
+        <a href="#quickstart">Esempi curl</a>
+        <a href="#config">Configurazione</a>
+      </aside>
+
+      <div class="api-content">
+
+        <!-- SYSTEM -->
+        <div class="api-group" id="system">
+          <h3 class="api-group-title">System Metrics <span class="api-group-base">/api/system</span></h3>
+          <p class="api-group-desc">Endpoint per la ricezione e consultazione delle metriche di sistema inviate dagli agent.</p>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method post">POST</span>
+              <span class="ep-path">/api/system</span>
+              <span class="ep-summary">Invia metriche base</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Riceve le metriche base da un agent: CPU, RAM, hostname. Usato per il monitoraggio essenziale.</p>
+              <p class="ep-section">Body (JSON)</p>
+              <div class="code-block"><div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">json</span></div>
+              <pre>{ <span class="str">"cpuPercent"</span>: <span class="val">45.5</span>, <span class="str">"ramPercent"</span>: <span class="val">60.2</span>, <span class="str">"hostname"</span>: <span class="str">"prod-01"</span> }</pre></div>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method post">POST</span>
+              <span class="ep-path">/api/system/advanced</span>
+              <span class="ep-summary">Invia metriche avanzate</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Riceve il set completo di metriche: CPU, RAM, disco, rete, load average, processi. Utilizzato dall'Agent v2.</p>
+              <div class="chips"><span class="chip">Usato da Agent v2</span></div>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/system/latest</span>
+              <span class="ep-summary">Ultimi dati di sistema</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Restituisce le metriche più recenti da tutti gli host. Usato dalla Dashboard per aggiornamento real-time ogni 10 secondi.</p>
+              <div class="chips"><span class="chip">Usato da Dashboard</span><span class="chip">Usato da AI Engine</span></div>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/system/host/{hostname}</span>
+              <span class="ep-summary">Metriche per host specifico</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Restituisce lo storico delle metriche per un singolo host. Usato dall'AI Engine per analisi su 24 ore.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/system/stats</span>
+              <span class="ep-summary">Statistiche generali</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Statistiche aggregate su tutti gli host: numero metriche, host attivi, valori medi CPU/RAM.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AGENTS -->
+        <div class="api-group" id="agent">
+          <h3 class="api-group-title">Agents <span class="api-group-base">/api/agent</span></h3>
+          <p class="api-group-desc">Gestione degli agent connessi. Un agent diventa Offline se non invia heartbeat per più di 5 minuti.</p>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method post">POST</span>
+              <span class="ep-path">/api/agent/heartbeat</span>
+              <span class="ep-summary">Heartbeat agent</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Segnala che l'agent è ancora attivo. Se l'agent non esiste viene creato automaticamente. Aggiorna LastHeartbeat e Status = "Online".</p>
+              <div class="code-block"><div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">json</span></div>
+              <pre>{ <span class="str">"hostname"</span>: <span class="str">"prod-01"</span>, <span class="str">"agentVersion"</span>: <span class="str">"2.0"</span> }</pre></div>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/agent</span>
+              <span class="ep-summary">Lista tutti gli agent</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Lista tutti gli agent con stato, ultimo heartbeat e metriche associate. Aggiorna automaticamente lo status a Offline se il heartbeat manca da più di 5 minuti.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/agent/{hostname}</span>
+              <span class="ep-summary">Dettagli agent specifico</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Restituisce stato e dettagli di un agent specifico. 404 se l'hostname non esiste.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method del">DEL</span>
+              <span class="ep-path">/api/agent/{hostname}</span>
+              <span class="ep-summary">Elimina agent</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Rimuove un agent dal database. Operazione permanente.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALERTS -->
+        <div class="api-group" id="alert">
+          <h3 class="api-group-title">Alerts <span class="api-group-base">/api/alert</span></h3>
+          <p class="api-group-desc">Sistema di alerting con tre livelli di severità: CRITICAL, WARNING, INFO. Gli alert vengono generati dall'AI Engine o manualmente.</p>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method post">POST</span>
+              <span class="ep-path">/api/alert</span>
+              <span class="ep-summary">Crea nuovo alert</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Crea un alert. Generato automaticamente dall'AI Engine quando rileva anomalie o trend critici.</p>
+              <div class="code-block"><div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">json</span></div>
+              <pre>{
+  <span class="str">"hostname"</span>: <span class="str">"prod-01"</span>,
+  <span class="str">"alertType"</span>: <span class="str">"HIGH_CPU"</span>,
+  <span class="str">"message"</span>: <span class="str">"CPU al 92% da 5 minuti"</span>,
+  <span class="str">"severity"</span>: <span class="str">"CRITICAL"</span>
+}</pre></div>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/alert</span>
+              <span class="ep-summary">Lista alert (con filtri)</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Lista alert con supporto filtri. Query param: <code style="font-family:var(--font-mono);color:var(--accent)">?resolved=false</code> per solo alert attivi.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/alert/host/{hostname}</span>
+              <span class="ep-summary">Alert per host</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Tutti gli alert (attivi e risolti) per un host specifico.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method put">PUT</span>
+              <span class="ep-path">/api/alert/{id}/resolve</span>
+              <span class="ep-summary">Risolvi alert</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Marca un alert come risolto. IsResolved = true, ResolvedAt = DateTime.UtcNow.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AUTOMATION -->
+        <div class="api-group" id="automation">
+          <h3 class="api-group-title">Automation <span class="api-group-base">/api/automation</span></h3>
+          <p class="api-group-desc">Gestione delle azioni di self-healing. Le azioni vengono create dall'Automation Engine e tracciate nel loro ciclo di vita: PENDING → EXECUTING → DONE/FAILED.</p>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method post">POST</span>
+              <span class="ep-path">/api/automation/action</span>
+              <span class="ep-summary">Crea azione di automazione</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Registra una nuova azione. Tipi: KILL_PROCESS, RESTART_SERVICE, SCALE_UP, SCALE_DOWN, CLEAR_CACHE, ESCALATE.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/automation/actions</span>
+              <span class="ep-summary">Storico azioni</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Lista completa di tutte le azioni eseguite, con status e timestamp. Usato dalla Dashboard per mostrare la history.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method get">GET</span>
+              <span class="ep-path">/api/automation/pending</span>
+              <span class="ep-summary">Azioni in attesa</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Restituisce tutte le azioni con status PENDING. Usato dall'Automation Engine per sapere cosa deve ancora eseguire.</p>
+            </div>
+          </div>
+
+          <div class="endpoint">
+            <div class="ep-header" onclick="toggle(this)">
+              <span class="method put">PUT</span>
+              <span class="ep-path">/api/automation/action/{id}/status</span>
+              <span class="ep-summary">Aggiorna status azione</span>
+            </div>
+            <div class="ep-body">
+              <p class="ep-desc">Aggiorna lo status di un'azione (PENDING → EXECUTING → DONE/FAILED). Permette il tracking del ciclo di vita completo.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICKSTART -->
+        <div class="api-group" id="quickstart">
+          <h3 class="api-group-title">Quick Start</h3>
+          <div class="qs-grid">
+            <div class="qs-card">
+              <h4>Test metriche</h4>
+              <p>Invia una metrica di test al backend con curl.</p>
+              <div class="code-block"><div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">bash</span></div>
+              <pre>curl -X POST \
+  http://localhost:5000/api/system \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{
+    "cpuPercent": 45.5,
+    "ramPercent": 60.2,
+    "hostname": "test-host"
+  }'</span></pre></div>
+            </div>
+            <div class="qs-card">
+              <h4>Stato agenti</h4>
+              <p>Verifica tutti gli agent connessi e il loro stato.</p>
+              <div class="code-block"><div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">bash</span></div>
+              <pre><span class="t-dim"># Lista agenti</span>
+curl http://localhost:5000/api/agent
+
+<span class="t-dim"># Alert attivi</span>
+curl http://localhost:5000/api/alert\
+  ?resolved=false
+
+<span class="t-dim"># Statistiche sistema</span>
+curl http://localhost:5000/api/system/stats</pre></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+  <footer class="page-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">CODE<span>CRAFT</span></span>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="progetto.html">Progetto</a>
+        <a href="architettura.html">Architettura</a>
+        <a href="contatti.html">Contatti</a>
+      </nav>
+      <span class="footer-copy">2025 — AIROP by CodeCraft</span>
+    </div>
+  </footer>
+</div>
+<script src="script.js"></script>
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>

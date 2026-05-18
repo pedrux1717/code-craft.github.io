@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contatti — AIROP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: calc(100vh - 144px); }
+    .contact-left { padding: 100px 80px; border-right: 1px solid var(--border); }
+    .contact-left h1 { font-size: clamp(2.5rem, 4vw, 3.8rem); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 24px; }
+    .contact-left p { color: var(--text-muted); line-height: 1.9; font-size: 0.97rem; margin-bottom: 48px; max-width: 440px; }
+    .contact-links { display: flex; flex-direction: column; gap: 2px; }
+    .contact-link { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; background: var(--surface); border: 1px solid var(--border); text-decoration: none; transition: border-color 0.2s, transform 0.15s; }
+    .contact-link:hover { border-color: rgba(14,165,233,0.35); transform: translateX(4px); }
+    .contact-link-left { display: flex; flex-direction: column; gap: 4px; }
+    .contact-link-label { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .contact-link-val { font-size: 0.88rem; color: var(--text); }
+    .contact-link-arrow { color: var(--text-dim); font-size: 1rem; }
+    .contact-right { padding: 100px 80px; background: var(--surface); }
+    .contact-right h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px; }
+    .members-list { display: flex; flex-direction: column; gap: 2px; }
+    .member-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--bg); border: 1px solid var(--border); }
+    .member-row-left { display: flex; flex-direction: column; gap: 3px; }
+    .member-row-name { font-size: 0.9rem; font-weight: 700; }
+    .member-row-role { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .member-row-mail { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .member-row-mail:hover { color: var(--accent2); }
+    .sorint-contact { margin-top: 40px; padding: 32px; background: var(--surface2); border: 1px solid var(--border); }
+    .sorint-contact h4 { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .sorint-contact p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.75; }
+    .sorint-contact a { color: var(--accent); text-decoration: none; }
+    .sorint-contact a:hover { color: var(--accent2); }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="page-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">CODE<span>CRAFT</span></a>
+      <div class="header-badge">AIROP v1.0</div>
+    </div>
+  </header>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="progetto.html">Il Progetto</a></li>
+      <li><a href="architettura.html">Architettura</a></li>
+      <li><a href="api.html">API & Docs</a></li>
+      <li><a href="contatti.html" class="active">Contatti</a></li>
+    </ul>
+  </nav>
+  <main class="page-body">
+    <div class="contact-layout">
+
+      <div class="contact-left">
+        <span class="section-label">// Parlaci</span>
+        <h1>Contatti</h1>
+        <p>Hai una domanda su AIROP, vuoi collaborare o semplicemente vuoi saperne di più? Raggiungici direttamente tramite uno dei canali qui sotto.</p>
+
+        <div class="contact-links">
+          <a class="contact-link" href="https://github.com/sorintlab/airop" target="_blank" rel="noopener">
+            <div class="contact-link-left">
+              <span class="contact-link-label">Repository</span>
+              <span class="contact-link-val">github.com/sorintlab/airop</span>
+            </div>
+            <span class="contact-link-arrow">→</span>
+          </a>
+          <a class="contact-link" href="https://www.sorint.com" target="_blank" rel="noopener">
+            <div class="contact-link-left">
+              <span class="contact-link-label">Partner</span>
+              <span class="contact-link-val">sorint.com</span>
+            </div>
+            <span class="contact-link-arrow">→</span>
+          </a>
+          <a class="contact-link" href="mailto:welisten@sorint.com">
+            <div class="contact-link-left">
+              <span class="contact-link-label">Email Sorint.lab</span>
+              <span class="contact-link-val">welisten@sorint.com</span>
+            </div>
+            <span class="contact-link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-right">
+        <h2>Scrivi direttamente al team</h2>
+        <div class="members-list">
+          <div class="member-row">
+            <div class="member-row-left">
+              <span class="member-row-name">Alessio Colombelli</span>
+              <span class="member-row-role">Capogruppo</span>
+            </div>
+            <a class="member-row-mail" href="https://mail.google.com/mail/?view=cm&to=colombelli.alessio.09@itisdalmine.edu.it" target="_blank" rel="noopener">colombelli.alessio.09@itisdalmine.edu.it</a>
+          </div>
+          <div class="member-row">
+            <div class="member-row-left">
+              <span class="member-row-name">Andrea Ivan Locatelli</span>
+              <span class="member-row-role">Slide Architect</span>
+            </div>
+            <a class="member-row-mail" href="https://mail.google.com/mail/?view=cm&to=locatelli.andreaivan.07@itisdalmine.edu.it" target="_blank" rel="noopener">locatelli.andreaivan.07@itisdalmine.edu.it</a>
+          </div>
+          <div class="member-row">
+            <div class="member-row-left">
+              <span class="member-row-name">Gabriele Travellini</span>
+              <span class="member-row-role">Back-end</span>
+            </div>
+            <a class="member-row-mail" href="https://mail.google.com/mail/?view=cm&to=travellini.gabriele.07@itisdalmine.edu.it" target="_blank" rel="noopener">travellini.gabriele.07@itisdalmine.edu.it</a>
+          </div>
+          <div class="member-row">
+            <div class="member-row-left">
+              <span class="member-row-name">Luca Pedruzzi</span>
+              <span class="member-row-role">Sviluppo Web</span>
+            </div>
+            <a class="member-row-mail" href="https://mail.google.com/mail/?view=cm&to=pedruzzi.luca.07@itisdalmine.edu.it" target="_blank" rel="noopener">pedruzzi.luca.07@itisdalmine.edu.it</a>
+          </div>
+          <div class="member-row">
+            <div class="member-row-left">
+              <span class="member-row-name">Mattia Tornatola</span>
+              <span class="member-row-role">Front-end</span>
+            </div>
+            <a class="member-row-mail" href="https://mail.google.com/mail/?view=cm&to=tornatola.mattia.08@itisdalmine.edu.it" target="_blank" rel="noopener">tornatola.mattia.08@itisdalmine.edu.it</a>
+          </div>
+        </div>
+
+        <div class="sorint-contact">
+          <h4>Azienda Partner</h4>
+          <p><strong>Sorint.lab</strong> — Digital Transformation &amp; IT Services<br>
+          📍 Grassobbio (BG), Italia<br>
+          🌐 <a href="https://www.sorint.com" target="_blank" rel="noopener">www.sorint.com</a><br>
+          📧 <a href="mailto:welisten@sorint.com">welisten@sorint.com</a></p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <footer class="page-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">CODE<span>CRAFT</span></span>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="progetto.html">Progetto</a>
+        <a href="architettura.html">Architettura</a>
+        <a href="api.html">API</a>
+      </nav>
+      <span class="footer-copy">2025 — AIROP by CodeCraft</span>
+    </div>
+  </footer>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

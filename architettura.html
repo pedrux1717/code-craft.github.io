@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Architettura & Stack — AIROP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .page-hero { padding: 100px 80px 64px; max-width: 1280px; margin: 0 auto; }
+    .page-hero h1 { font-size: clamp(2.5rem, 4.5vw, 4rem); font-weight: 800; letter-spacing: -2px; line-height: 1.05; margin-bottom: 20px; }
+    .page-hero p { color: var(--text-muted); font-size: 1rem; line-height: 1.85; max-width: 600px; }
+    /* DIAGRAM */
+    .diagram-wrap { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .diagram-inner { max-width: 1280px; margin: 0 auto; padding: 80px; }
+    .diagram { display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .d-row { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 40px 0; border-top: 1px solid var(--border); }
+    .d-row:first-child { border-top: none; padding-top: 0; }
+    .d-row-label { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); align-self: flex-start; }
+    .d-nodes { display: flex; gap: 12px; justify-content: center; width: 100%; flex-wrap: wrap; }
+    .d-node { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 28px; border: 1px solid var(--border); background: var(--bg); min-width: 130px; transition: border-color 0.2s, transform 0.2s; }
+    .d-node:hover { border-color: rgba(14,165,233,0.4); transform: translateY(-3px); }
+    .d-node.wide { min-width: 320px; }
+    .d-node.dim { opacity: 0.45; }
+    .d-icon { font-size: 1.4rem; line-height: 1; }
+    .d-name { font-size: 0.82rem; font-weight: 700; text-align: center; }
+    .d-lang { font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-muted); text-align: center; }
+    .d-arrow { font-size: 1rem; color: var(--text-dim); padding: 4px 0; }
+    .agent-icon { color: var(--accent); }
+    .backend-icon { color: var(--accent-purple); }
+    .db-icon { color: #fbbf24; }
+    .ai-icon { color: var(--accent-green); }
+    .auto-icon { color: var(--accent-warm); }
+    .dash-icon { color: var(--accent); }
+    /* TECH STACK */
+    .tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+    .tech-col { background: var(--surface2); border: 1px solid var(--border); padding: 36px; }
+    .tech-col h4 { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+    .tech-item { display: flex; align-items: center; gap: 12px; font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px; }
+    .tech-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .d-blue   { background: var(--accent); }
+    .d-purple { background: var(--accent-purple); }
+    .d-cyan   { background: #22d3ee; }
+    .d-green  { background: var(--accent-green); }
+    /* DEPLOYMENT */
+    .deploy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .deploy-card { background: var(--bg); border: 1px solid var(--border); padding: 40px; }
+    .deploy-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+    .deploy-card p { color: var(--text-muted); font-size: 0.88rem; line-height: 1.8; margin-bottom: 20px; }
+    /* SECURITY */
+    .sec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .sec-card { background: var(--surface2); border: 1px solid var(--border); padding: 32px; }
+    .sec-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
+    .sec-card p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.75; }
+    .sec-badge { display: inline-block; font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; margin-bottom: 14px; }
+    .sec-badge.impl { color: var(--accent-green); border: 1px solid rgba(52,211,153,0.3); background: rgba(52,211,153,0.06); }
+    .sec-badge.plan { color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); background: rgba(251,191,36,0.06); }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="page-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">CODE<span>CRAFT</span></a>
+      <div class="header-badge">AIROP v1.0</div>
+    </div>
+  </header>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="progetto.html">Il Progetto</a></li>
+      <li><a href="architettura.html" class="active">Architettura</a></li>
+      <li><a href="api.html">API & Docs</a></li>
+      <li><a href="contatti.html">Contatti</a></li>
+    </ul>
+  </nav>
+  <main class="page-body">
+
+    <div class="page-hero">
+      <span class="section-label">// Architettura & Stack</span>
+      <h1>Come è costruito<br>AIROP</h1>
+      <p>Un sistema distribuito a cinque livelli che raccoglie, persiste, analizza e agisce autonomamente — deployabile su Docker o Kubernetes in pochi minuti.</p>
+    </div>
+
+    <!-- DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-inner">
+        <div class="section-head">
+          <span class="section-label">// Schema architetturale</span>
+          <h2>Flusso dati</h2>
+        </div>
+        <div class="diagram">
+          <div class="d-row">
+            <span class="d-row-label">Layer 1 — Data Collection</span>
+            <div class="d-nodes">
+              <div class="d-node"><span class="d-icon agent-icon">⬡</span><span class="d-name">Agent v1</span><span class="d-lang">Python · GUI</span></div>
+              <div class="d-node"><span class="d-icon agent-icon">⬡</span><span class="d-name">Agent v2</span><span class="d-lang">Python · Headless</span></div>
+              <div class="d-node dim"><span class="d-icon agent-icon">⬡</span><span class="d-name">Agent vN</span><span class="d-lang">Distribuito</span></div>
+            </div>
+          </div>
+          <div class="d-arrow">▼ HTTP REST (ogni 5s)</div>
+          <div class="d-row">
+            <span class="d-row-label">Layer 2 — Core API</span>
+            <div class="d-nodes">
+              <div class="d-node wide"><span class="d-icon backend-icon">◈</span><span class="d-name">Backend REST API</span><span class="d-lang">C# .NET 8 · ASP.NET Core · AutoMapper · Serilog</span></div>
+            </div>
+          </div>
+          <div class="d-arrow">▼ Entity Framework Core</div>
+          <div class="d-row">
+            <span class="d-row-label">Layer 3 — Persistenza</span>
+            <div class="d-nodes">
+              <div class="d-node wide"><span class="d-icon db-icon">◧</span><span class="d-name">MSSQL Server 2022</span><span class="d-lang">Metrics · Agents · Alerts · Automation Actions</span></div>
+            </div>
+          </div>
+          <div class="d-arrow">▼ HTTP REST (polling)</div>
+          <div class="d-row">
+            <span class="d-row-label">Layer 4 — Intelligence & Presentation</span>
+            <div class="d-nodes">
+              <div class="d-node"><span class="d-icon ai-icon">◎</span><span class="d-name">AI Engine</span><span class="d-lang">Python · sklearn</span></div>
+              <div class="d-node"><span class="d-icon auto-icon">↺</span><span class="d-name">Automation</span><span class="d-lang">Python · Self-Healing</span></div>
+              <div class="d-node"><span class="d-icon dash-icon">▦</span><span class="d-name">Dashboard</span><span class="d-lang">React 18 · MUI</span></div>
+            </div>
+          </div>
+          <div class="d-arrow">▼ Docker / Kubernetes</div>
+          <div class="d-row">
+            <span class="d-row-label">Layer 5 — Infrastruttura</span>
+            <div class="d-nodes">
+              <div class="d-node"><span class="d-icon" style="color:#2496ED">🐳</span><span class="d-name">Docker Compose</span><span class="d-lang">Dev / Staging</span></div>
+              <div class="d-node"><span class="d-icon" style="color:#326CE5">⎈</span><span class="d-name">Kubernetes</span><span class="d-lang">Production · HPA</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-label">// Stack tecnologico</span>
+        <h2>Tecnologie</h2>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-col">
+          <h4>Backend</h4>
+          <div class="tech-item"><span class="tech-dot d-blue"></span>C# / .NET 8</div>
+          <div class="tech-item"><span class="tech-dot d-blue"></span>ASP.NET Core</div>
+          <div class="tech-item"><span class="tech-dot d-blue"></span>Entity Framework Core</div>
+          <div class="tech-item"><span class="tech-dot d-blue"></span>MSSQL Server 2022</div>
+          <div class="tech-item"><span class="tech-dot d-blue"></span>Serilog</div>
+          <div class="tech-item"><span class="tech-dot d-blue"></span>AutoMapper</div>
+          <div class="tech-item"><span class="tech-dot d-blue"></span>Swagger / OpenAPI</div>
+        </div>
+        <div class="tech-col">
+          <h4>AI & Automation</h4>
+          <div class="tech-item"><span class="tech-dot d-purple"></span>Python 3.11+</div>
+          <div class="tech-item"><span class="tech-dot d-purple"></span>scikit-learn</div>
+          <div class="tech-item"><span class="tech-dot d-purple"></span>pandas</div>
+          <div class="tech-item"><span class="tech-dot d-purple"></span>numpy</div>
+          <div class="tech-item"><span class="tech-dot d-purple"></span>psutil</div>
+          <div class="tech-item"><span class="tech-dot d-purple"></span>PyYAML</div>
+          <div class="tech-item"><span class="tech-dot d-purple"></span>requests</div>
+        </div>
+        <div class="tech-col">
+          <h4>Frontend</h4>
+          <div class="tech-item"><span class="tech-dot d-cyan"></span>React 18</div>
+          <div class="tech-item"><span class="tech-dot d-cyan"></span>Material-UI (MUI)</div>
+          <div class="tech-item"><span class="tech-dot d-cyan"></span>Recharts</div>
+          <div class="tech-item"><span class="tech-dot d-cyan"></span>Axios</div>
+          <div class="tech-item"><span class="tech-dot d-cyan"></span>React Hooks</div>
+          <div class="tech-item"><span class="tech-dot d-cyan"></span>Node.js 18+</div>
+        </div>
+        <div class="tech-col">
+          <h4>Infrastruttura</h4>
+          <div class="tech-item"><span class="tech-dot d-green"></span>Docker & Compose</div>
+          <div class="tech-item"><span class="tech-dot d-green"></span>Kubernetes</div>
+          <div class="tech-item"><span class="tech-dot d-green"></span>HPA (autoscaling)</div>
+          <div class="tech-item"><span class="tech-dot d-green"></span>HTTPS / TLS</div>
+          <div class="tech-item"><span class="tech-dot d-green"></span>CORS configurato</div>
+          <div class="tech-item"><span class="tech-dot d-green"></span>Environment secrets</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPLOYMENT -->
+    <div class="alt-bg">
+      <div class="section-inner">
+        <div class="section-head">
+          <span class="section-label">// Deployment</span>
+          <h2>Avvia AIROP</h2>
+        </div>
+        <div class="deploy-grid">
+          <div class="deploy-card">
+            <h3>🐳 Docker Compose (Consigliato)</h3>
+            <p>Avvia tutti i componenti con un singolo comando. Ideale per sviluppo e staging.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">bash</span></div>
+              <pre><span class="t-dim"># Clone e avvio</span>
+git clone https://github.com/sorintlab/airop
+cd airop
+docker-compose up --build
+
+<span class="t-dim"># Dashboard disponibile a:</span>
+open http://localhost:<span class="val">3000</span></pre>
+            </div>
+          </div>
+          <div class="deploy-card">
+            <h3>⎈ Kubernetes (Production)</h3>
+            <p>Deploy su cluster Kubernetes con HPA per scaling automatico dei pod.</p>
+            <div class="code-block">
+              <div class="code-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="code-lang">bash</span></div>
+              <pre><span class="t-dim"># Apply manifests</span>
+kubectl apply -f kubernetes.yaml
+
+<span class="t-dim"># Verifica pods</span>
+kubectl get pods -n airop
+
+<span class="t-dim"># Scale backend</span>
+kubectl scale deployment airop-backend \
+  -n airop --replicas=<span class="val">3</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="section-inner">
+      <div class="section-head">
+        <span class="section-label">// Sicurezza</span>
+        <h2>Security</h2>
+      </div>
+      <div class="sec-grid">
+        <div class="sec-card"><span class="sec-badge impl">Implementato</span><h4>HTTPS / TLS</h4><p>Tutte le comunicazioni tra componenti avvengono su HTTPS. Certificati TLS configurati per ambienti production.</p></div>
+        <div class="sec-card"><span class="sec-badge impl">Implementato</span><h4>CORS</h4><p>CORS configurato lato backend per permettere accesso solo dalle origini autorizzate (dashboard).</p></div>
+        <div class="sec-card"><span class="sec-badge impl">Implementato</span><h4>Input Validation</h4><p>Validazione su tutti gli endpoint API con risposta standardizzata agli errori. Nessun dato raw arriva al database.</p></div>
+        <div class="sec-card"><span class="sec-badge impl">Implementato</span><h4>Environment Secrets</h4><p>Credenziali e connection string gestite tramite variabili d'ambiente, mai hardcodate nel codice.</p></div>
+        <div class="sec-card"><span class="sec-badge plan">Pianificato</span><h4>JWT Authentication</h4><p>Autenticazione token-based per proteggere tutti gli endpoint API. Implementazione prevista in v1.1.</p></div>
+        <div class="sec-card"><span class="sec-badge plan">Pianificato</span><h4>Rate Limiting</h4><p>Limitazione delle richieste per prevenire abusi degli endpoint pubblici. Previsto insieme a DDoS protection.</p></div>
+      </div>
+    </div>
+
+  </main>
+  <footer class="page-footer">
+    <div class="footer-inner">
+      <span class="footer-logo">CODE<span>CRAFT</span></span>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="progetto.html">Progetto</a>
+        <a href="api.html">API</a>
+        <a href="contatti.html">Contatti</a>
+      </nav>
+      <span class="footer-copy">2025 — AIROP by CodeCraft</span>
+    </div>
+  </footer>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
